@@ -1,89 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace UNAH_Assistance_Web_API.Controllers
 {
-    public class ClassesController : Controller
+    public class ClassesController : ApiController
     {
-        // GET: Classes
-        public ActionResult Index()
+        private MyAppDbContext db = new MyAppDbContext();
+
+        [HttpGet]
+        [Route("api/Classes/Get")]
+        public IEnumerable<Models.Classes> Get()
         {
-            return View();
+            return db.Classes.ToList();
         }
 
-        // GET: Classes/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        [Route("api/Classes/Get/{id}")]
+        public Models.Classes GetbyId(int id)
         {
-            return View();
+          return db.Classes.Find(id);
         }
 
-        // GET: Classes/Create
-        public ActionResult Create()
+        [HttpGet]
+        [Route("api/Classes/GetByAlumn/{idAlumno}")]
+        public IEnumerable<Models.Classes> GetClassesByAlumn(int idAlumno)
         {
-            return View();
+            return db.Classes.Where(c => c.StudentsList.Any(s => s.IdStudent == idAlumno)).ToList();
         }
 
-        // POST: Classes/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public IHttpActionResult Post([FromBody]Models.Classes classes)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            db.Classes.Add(classes);
+            db.SaveChanges();
+            return Ok();
         }
 
-        // GET: Classes/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPut]
+        public IHttpActionResult Put(int id, [FromBody]Models.Classes classes)
         {
-            return View();
+            db.Entry(classes).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
         }
 
-        // POST: Classes/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Classes/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Classes/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            db.Classes.Remove(db.Classes.Find(id));
+            db.SaveChanges();
+            return Ok();
         }
     }
 }
