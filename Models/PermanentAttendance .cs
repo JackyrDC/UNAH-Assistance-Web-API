@@ -10,7 +10,6 @@ namespace UNAH_Assistance_Web_API.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdPermanentAttendance { get; set; }
-        // test
         public int IdStudent { get; set; }
         [ForeignKey("IdStudent")]
         public Students Student { get; set; }
