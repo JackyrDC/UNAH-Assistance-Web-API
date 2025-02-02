@@ -19,15 +19,13 @@ namespace UNAH_Assistance_Web_API
         public DbSet<Teachers> Teachers { get; set; }
         public DbSet<Classes> Classes { get; set; }
         public DbSet<UserTypes> UserTypes { get; set; }
-        public DbSet<DailyAttendance> DailyAttendances { get; set; }
-        public DbSet<PermanentAttendance> PermanentAttendances { get; set; }
-
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Configurar el tamaño del lote de operaciones
             modelBuilder.Entity<Students>().Property(e => e.IdStudent).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Campus>().Property(e => e.IdCampus).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<UserState>().Property(e => e.IdUserState).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -55,24 +53,6 @@ namespace UNAH_Assistance_Web_API
                 .HasRequired(c => c.Campus)
                 .WithMany()
                 .HasForeignKey(c => c.IdCampus)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<DailyAttendance>()
-                .HasRequired(d => d.Student)
-                .WithMany()
-                .HasForeignKey(d => d.IdStudent)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<DailyAttendance>()
-                .HasRequired(d => d.Class)
-                .WithMany()
-                .HasForeignKey(d => d.IdClass)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<PermanentAttendance>()
-                .HasRequired(p => p.Student)
-                .WithMany()
-                .HasForeignKey(p => p.IdStudent)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
