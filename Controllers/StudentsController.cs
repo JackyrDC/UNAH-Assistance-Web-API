@@ -39,6 +39,25 @@ namespace UNAH_Assistance_Web_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("/api/Students/PostMany")]
+        public IHttpActionResult PostMany([FromBody]Models.Students[] Students)
+        {
+            try
+            {
+                foreach (var student in Students)
+                {
+                    db.Estudiantes.Add(student);
+                }
+                db.SaveChanges();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPut]
         [Route("/api/Students/PUT/{id}")]
         public IHttpActionResult Put(int id, [FromBody]Models.Students student)
