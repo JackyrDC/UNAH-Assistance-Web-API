@@ -41,14 +41,11 @@ namespace UNAH_Assistance_Web_API.Controllers
 
         [HttpPost]
         [Route("/api/Students/PostMany")]
-        public IHttpActionResult PostMany([FromBody]Models.Students[] Students)
+        public IHttpActionResult PostMany([FromBody]Models.Students[] students)
         {
             try
             {
-                foreach (var student in Students)
-                {
-                    db.Estudiantes.Add(student);
-                }
+                db.Estudiantes.AddRange(students);
                 db.SaveChanges();
                 return Ok();
             }

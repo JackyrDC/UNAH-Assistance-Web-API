@@ -37,9 +37,16 @@ namespace UNAH_Assistance_Web_API.Controllers
         [Route("api/teachers/createmultiple")]
         public IHttpActionResult CreateMultiple([FromBody]IEnumerable<Models.Teachers> teachers)
         {
-            teachers.ToList().ForEach(t => db.Teachers.Add(t));
-            db.SaveChanges();
-            return Ok();
+            try{
+                db.Teachers.AddRange(teachers);
+                db.SaveChanges();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
         }
 
         [HttpPut]
@@ -51,42 +58,37 @@ namespace UNAH_Assistance_Web_API.Controllers
             return Ok();
         }
 
-        // POST: Teachers/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [HttpPut]
+        [Route("api/teachers/put")]
+        public IHttpActionResult Edit(int id, [FromBody]Models.Teachers teacher)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                db.Entry(teacher).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return Ok();
             }
             catch
             {
-                return View();
+                return BadRequest();
             }
         }
 
-        // GET: Teachers/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Teachers/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpDelete]
+        [Route("api/teachers/delete/{id}")]
+        public IHttpActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                db.Teachers.Remove(db.Teachers.Find(id));
+                db.SaveChanges();
+                return Ok();
             }
-            catch
-            {
-                return View();
+            catch {
+                return BadRequest();
             }
         }
+
+ 
     }
 }
