@@ -19,8 +19,10 @@ namespace UNAH_Assistance_Web_API
         public DbSet<Teachers> Teachers { get; set; }
         public DbSet<Classes> Classes { get; set; }
         public DbSet<UserTypes> UserTypes { get; set; }
-        public DbSet<DailyAttendance> DailyAttendances { get; set; }
-        public DbSet<PermanentAttendance> PermanentAttendances { get; set; }
+        public DbSet<Rolls> Rolls { get; set; }
+        public DbSet<DailyRoll> DailyRolls { get; set; }
+        public DbSet<PermanentRolls> PermanentRolls { get; set; }
+
 
 
 
@@ -57,22 +59,37 @@ namespace UNAH_Assistance_Web_API
                 .HasForeignKey(c => c.IdCampus)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<DailyAttendance>()
-                .HasRequired(d => d.Student)
+            modelBuilder.Entity<Rolls>()
+                .HasRequired(r => r.Teacher)
                 .WithMany()
-                .HasForeignKey(d => d.IdStudent)
+                .HasForeignKey(r => r.IdTeacher)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<DailyAttendance>()
-                .HasRequired(d => d.Class)
+            modelBuilder.Entity<Rolls>()
+                .HasRequired(r => r.Class)
                 .WithMany()
-                .HasForeignKey(d => d.IdClass)
+                .HasForeignKey(r => r.IdClass)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<PermanentAttendance>()
-                .HasRequired(p => p.Student)
+            modelBuilder.Entity<Rolls>()
+                .HasMany(r => r.DailyRolls)
+                .WithRequired(dr => dr.Roll)
+                .HasForeignKey(dr => dr.IdRoll)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<DailyRoll>()
+                .HasMany(dr => dr.StudentsList)
+                .WithRequired(pr => pr.DailyRoll)
+                .HasForeignKey(pr => pr.IdDailyRoll)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PermanentRolls>()
+                .HasKey(pr => new { pr.IdDailyRoll, pr.IdStudent });
+
+            modelBuilder.Entity<PermanentRolls>()
+                .HasRequired(pr => pr.Student)
                 .WithMany()
-                .HasForeignKey(p => p.IdStudent)
+                .HasForeignKey(pr => pr.IdStudent)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

@@ -170,8 +170,9 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Campus.cs" />
     <Compile Include="Models\Classes.cs" />
-    <Compile Include="Models\DailyAttendance.cs" />
-    <Compile Include="Models\PermanentAttendance .cs" />
+    <Compile Include="Models\DailyRoll.cs" />
+    <Compile Include="Models\PermanentRolls.cs" />
+    <Compile Include="Models\Rolls.cs" />
     <Compile Include="Models\Students.cs" />
     <Compile Include="Models\Teachers.cs" />
     <Compile Include="Models\Users.cs" />
