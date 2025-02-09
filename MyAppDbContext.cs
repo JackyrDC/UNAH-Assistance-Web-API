@@ -25,11 +25,11 @@ namespace UNAH_Assistance_Web_API
 
 
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Configurar el tamaño del lote de operaciones
             modelBuilder.Entity<Students>().Property(e => e.IdStudent).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Campus>().Property(e => e.IdCampus).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<UserState>().Property(e => e.IdUserState).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -57,8 +57,7 @@ namespace UNAH_Assistance_Web_API
                 .HasRequired(c => c.Campus)
                 .WithMany()
                 .HasForeignKey(c => c.IdCampus)
-                .WillCascadeOnDelete(false);
-
+                .WillCascadeOnDelete(false)
             modelBuilder.Entity<Rolls>()
                 .HasRequired(r => r.Teacher)
                 .WithMany()
@@ -91,6 +90,7 @@ namespace UNAH_Assistance_Web_API
                 .WithMany()
                 .HasForeignKey(pr => pr.IdStudent)
                 .WillCascadeOnDelete(false);
+
 
             base.OnModelCreating(modelBuilder);
         }
