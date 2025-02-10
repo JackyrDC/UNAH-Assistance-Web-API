@@ -10,17 +10,15 @@ namespace UNAH_Assistance_Web_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdDailyRoll { get; set; }
+        public int idDailyRoll { get; set; }  // Cambiado a camelCase
 
-        [Required]
-        public int IdRoll { get; set; }
+        [ForeignKey("Roll")]
+        public int idRoll { get; set; }  // Cambiado a camelCase
 
-        [ForeignKey("IdRoll")]
-        public Rolls Roll { get; set; }
+        public DateTime creationDate { get; set; }  // Cambiado a camelCase
 
-        [Required]
-        public DateTime CreationDate { get; set; }
+        public virtual Roll roll { get; set; }  // Cambiado a camelCase
 
-        public virtual ICollection<PermanentRolls> StudentsList { get; set; }
+        public virtual ICollection<PermanentRoll> studentsList { get; set; }  // Cambiado a camelCase
     }
 }

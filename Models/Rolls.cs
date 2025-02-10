@@ -6,27 +6,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace UNAH_Assistance_Web_API.Models
 {
     [Table("Rolls")]
-    public class Rolls
+    public class Roll
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdRoll { get; set; }
+        public int idRoll { get; set; }
 
         [Required]
-        public int IdTeacher { get; set; }
+        [ForeignKey(nameof(teacher))]
+        public int idTeacher { get; set; }
 
-        [ForeignKey("IdTeacher")]
-        public Teachers Teacher { get; set; }
-
-        [Required]
-        public int IdClass { get; set; }
-
-        [ForeignKey("IdClass")]
-        public Classes Class { get; set; }
+        public virtual Teachers teacher { get; set; }
 
         [Required]
-        public DateTime RollDate { get; set; }
+        [ForeignKey(nameof(classEntity))]
+        public int idClass { get; set; }
 
-        public virtual ICollection<DailyRoll> DailyRolls { get; set; }
+        public virtual Classes classEntity { get; set; } // Evita colisión con palabra reservada 'class'
+
+        [Required]
+        public DateTime rollDate { get; set; }
+
+        public virtual ICollection<DailyRoll> dailyRolls { get; set; } = new List<DailyRoll>();
     }
 }
