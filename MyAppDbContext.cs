@@ -19,6 +19,10 @@ namespace UNAH_Assistance_Web_API
         public DbSet<Teachers> Teachers { get; set; }
         public DbSet<Classes> Classes { get; set; }
         public DbSet<UserTypes> UserTypes { get; set; }
+        public DbSet<Roll> Rolls { get; set; }
+        public DbSet<DailyRoll> DailyRolls { get; set; }
+        public DbSet<PermanentRoll> PermanentRolls { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -54,6 +58,40 @@ namespace UNAH_Assistance_Web_API
                 .WithMany()
                 .HasForeignKey(c => c.IdCampus)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Roll>()
+                .HasRequired(r => r.teacher)
+                .WithMany()
+                .HasForeignKey(r => r.idTeacher)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Roll>()
+                .HasRequired(r => r.classEntity)
+                .WithMany()
+                .HasForeignKey(r => r.classEntity)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Roll>()
+                .HasMany(r => r.dailyRolls)
+                .WithRequired(dr => dr.roll)
+                .HasForeignKey(dr => dr.idRoll)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<DailyRoll>()
+                .HasMany(dr => dr.studentsList)
+                .WithRequired(pr => pr.dailyRoll)
+                .HasForeignKey(pr => pr.idDailyRoll)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PermanentRoll>()
+                .HasKey(pr => new { pr.idDailyRoll, pr.idStudent });
+
+            modelBuilder.Entity<PermanentRoll>()
+                .HasRequired(pr => pr.student)
+                .WithMany()
+                .HasForeignKey(pr => pr.idStudent)
+                .WillCascadeOnDelete(false);
+
 
             base.OnModelCreating(modelBuilder);
         }
