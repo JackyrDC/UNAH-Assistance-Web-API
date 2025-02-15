@@ -1,0 +1,24 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - main  # Se ejecuta cuando haya cambios en main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Conectar a la VM y desplegar
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/yuscaman/APIs/UNAH-Assistance-Web-API
+            git pull origin main
+            dotnet build
+            dotnet publish -c Release -o /home/yuscaman/APIs/UNAH-Assistance-Web-API/publish
+            sudo systemctl restart unah-assistance-api
