@@ -10,24 +10,26 @@ namespace UNAH_Assistance_Web_API.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdClass { get; set; }
-         
+
         [Required]
         public string ClassName { get; set; }
 
         public int? IdTeacher { get; set; }
+
         [ForeignKey("IdTeacher")]
         public Teachers Teacher { get; set; }
 
         public int IdCampus { get; set; }
+
         [ForeignKey("IdCampus")]
         public Campus Campus { get; set; }
-
 
         public string Period { get; set; }
         public int Year { get; set; }
         public int Credits { get; set; }
 
-        public ICollection<Students> StudentsList { get; set; }
+        public bool IsDeleted { get; set; } = false; // Nuevo campo para el borrado lógico
 
+        public ICollection<Students> StudentsList { get; set; }
     }
 }

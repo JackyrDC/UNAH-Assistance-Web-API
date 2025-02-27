@@ -1,59 +1,126 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using UNAH_Assistance_Web_API.Models;
 
 namespace UNAH_Assistance_Web_API.Controllers
 {
+    [RoutePrefix("api/classes")]
     public class ClassesController : ApiController
     {
-        private MyAppDbContext db = new MyAppDbContext();
+        private readonly MyAppDbContext _context = new MyAppDbContext();
 
+        // GET:
+        // api/classes
         [HttpGet]
-        [Route("api/Classes/Get")]
-        public IEnumerable<Models.Classes> Get()
+        [Route("")]
+        public async Task<IHttpActionResult> GetAll()
         {
-            return db.Classes.ToList();
+            var classes = _context.Classes.Where(c => !c.IsDeleted).ToList();
+            return Ok(classes);
         }
 
+        // GET:
+        // api/classes/{id}
         [HttpGet]
-        [Route("api/Classes/Get/{id}")]
-        public Models.Classes GetbyId(int id)
+        [Route("{id:int}")]
+        public async Task<IHttpActionResult> GetById(int id)
         {
-          return db.Classes.Find(id);
+            var classItem = _context.Classes.FirstOrDefault(c => c.IdClass == id && !c.IsDeleted);
+            if (classItem == null)
+                return NotFound();
+
+            return Ok(classItem);
         }
 
+        // GET:
+        // api/classes/by-student/{idAlumno}
         [HttpGet]
-        [Route("api/Classes/GetByAlumn/{idAlumno}")]
-        public IEnumerable<Models.Classes> GetClassesByAlumn(int idAlumno)
+        [Route("by-student/{idAlumno:int}")]
+        public async Task<IHttpActionResult> GetClassesByStudent(int idAlumno)
         {
-            return db.Classes.Where(c => c.StudentsList.Any(s => s.IdStudent == idAlumno)).ToList();
+            var classes = _context.Classes
+                .Where(c => !c.IsDeleted && c.StudentsList.Any(s => s.IdStudent == idAlumno))
+                .ToList();
+
+            return Ok(classes);
         }
 
+        // POST:
+        // api/classes
         [HttpPost]
-        public IHttpActionResult Post([FromBody]Models.Classes classes)
+        [Route("")]
+        public async Task<IHttpActionResult> Create([FromBody] Classes newClass)
         {
-            db.Classes.Add(classes);
-            db.SaveChanges();
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _context.Classes.Add(newClass);
+            _context.SaveChanges();
+            return Created($"api/classes/{newClass.IdClass}", newClass);
         }
 
+        // PUT:
+        // api/classes/{id}
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody]Models.Classes classes)
+        [Route("{id:int}")]
+        public async Task<IHttpActionResult> Update(int id, [FromBody] Classes updatedClass)
         {
-            db.Entry(classes).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var classItem = _context.Classes.Find(id);
+            if (classItem == null || classItem.IsDeleted)
+                return NotFound();
+
+            classItem.ClassName = updatedClass.ClassName;
+            classItem.IdTeacher = updatedClass.IdTeacher;
+            classItem.IdCampus = updatedClass.IdCampus;
+            classItem.Period = updatedClass.Period;
+            classItem.Year = updatedClass.Year;
+            classItem.Credits = updatedClass.Credits;
+
+            _context.SaveChanges();
+            return Ok(classItem);
         }
 
+        // DELETE (borrado lógico):
+        // api/classes/{id}
         [HttpDelete]
-        public IHttpActionResult Delete(int id)
+        [Route("{id:int}")]
+        public async Task<IHttpActionResult> SoftDelete(int id)
         {
-            db.Classes.Remove(db.Classes.Find(id));
-            db.SaveChanges();
-            return Ok();
+            var classItem = _context.Classes.Find(id);
+            if (classItem == null || classItem.IsDeleted)
+                return NotFound();
+
+            classItem.IsDeleted = true;
+            _context.SaveChanges();
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // Restaurar una clase eliminada:
+        // api/classes/{id}/restore
+        [HttpPost]
+        [Route("{id:int}/restore")]
+        public async Task<IHttpActionResult> Restore(int id)
+        {
+            var classItem = _context.Classes.Find(id);
+            if (classItem == null || !classItem.IsDeleted)
+                return NotFound();
+
+            classItem.IsDeleted = false;
+            _context.SaveChanges();
+            return Ok(classItem);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                _context.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

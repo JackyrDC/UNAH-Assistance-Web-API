@@ -22,7 +22,7 @@ namespace UNAH_Assistance_Web_API.Models
         [ForeignKey(nameof(classEntity))]
         public int idClass { get; set; }
 
-        public virtual Classes classEntity { get; set; } // Evita colisión con palabra reservada 'class'
+        public virtual Classes classEntity { get; set; } 
 
         [Required]
         public DateTime rollDate { get; set; }

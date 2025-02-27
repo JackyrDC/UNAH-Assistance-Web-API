@@ -34,6 +34,6 @@ namespace UNAH_Assistance_Web_API.Models
         public virtual UserTypes userType { get; set; }
 
         public virtual ICollection<Classes> Classes { get; set; }
-
+        public bool IsDeleted { get; set; } = false;
     }
 }
