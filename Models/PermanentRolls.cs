@@ -16,9 +16,11 @@ namespace UNAH_Assistance_Web_API.Models
         [ForeignKey(nameof(student))]
         public int idStudent { get; set; }
 
-        public virtual Students student { get; set; } 
+        public virtual Students student { get; set; }
 
         [Required]
-        public string rollState { get; set; } 
+        public string rollState { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

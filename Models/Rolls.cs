@@ -10,23 +10,23 @@ namespace UNAH_Assistance_Web_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int idRoll { get; set; }
+        public int IdRoll { get; set; }
 
         [Required]
-        [ForeignKey(nameof(teacher))]
-        public int idTeacher { get; set; }
-
-        public virtual Teachers teacher { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(classEntity))]
-        public int idClass { get; set; }
-
-        public virtual Classes classEntity { get; set; } 
+        [ForeignKey(nameof(Teacher))]
+        public int IdTeacher { get; set; }
+        public virtual Teachers Teacher { get; set; }
 
         [Required]
-        public DateTime rollDate { get; set; }
+        [ForeignKey(nameof(ClassEntity))]
+        public int IdClass { get; set; }
+        public virtual Classes ClassEntity { get; set; }
 
-        public virtual ICollection<DailyRoll> dailyRolls { get; set; } = new List<DailyRoll>();
+        [Required]
+        public DateTime RollDate { get; set; }
+
+        public virtual ICollection<DailyRoll> DailyRolls { get; set; } = new HashSet<DailyRoll>();
+
+        public bool IsDeleted { get; set; } = false;
     }
 }
