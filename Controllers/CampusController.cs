@@ -21,14 +21,14 @@ namespace UNAH_Assistance_Web_API.Controllers
             return db.Campus.Find(id);
         }
         [HttpPost]
-        public IHttpActionResult Post([FromBody]Models.Campus campus)
+        public IHttpActionResult Post([FromBody] Models.Campus campus)
         {
             db.Campus.Add(campus);
             db.SaveChanges();
             return Ok();
         }
         [HttpPut]
-        public IHttpActionResult Put([FromBody]Models.Campus campus)
+        public IHttpActionResult Put([FromBody] Models.Campus campus)
         {
             db.Entry(campus).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();

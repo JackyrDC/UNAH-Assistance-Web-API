@@ -26,7 +26,7 @@ namespace UNAH_Assistance_Web_API.Controllers
 
         [HttpPost]
         [Route("api/teachers/post")]
-        public IHttpActionResult Post([FromBody]Models.Teachers teacher)
+        public IHttpActionResult Post([FromBody] Models.Teachers teacher)
         {
             db.Teachers.Add(teacher);
             db.SaveChanges();
@@ -35,9 +35,10 @@ namespace UNAH_Assistance_Web_API.Controllers
 
         [HttpPost]
         [Route("api/teachers/createmultiple")]
-        public IHttpActionResult CreateMultiple([FromBody]IEnumerable<Models.Teachers> teachers)
+        public IHttpActionResult CreateMultiple([FromBody] IEnumerable<Models.Teachers> teachers)
         {
-            try{
+            try
+            {
                 db.Teachers.AddRange(teachers);
                 db.SaveChanges();
                 return Ok();
@@ -60,7 +61,7 @@ namespace UNAH_Assistance_Web_API.Controllers
 
         [HttpPut]
         [Route("api/teachers/put")]
-        public IHttpActionResult Edit(int id, [FromBody]Models.Teachers teacher)
+        public IHttpActionResult Edit(int id, [FromBody] Models.Teachers teacher)
         {
             try
             {
@@ -84,11 +85,12 @@ namespace UNAH_Assistance_Web_API.Controllers
                 db.SaveChanges();
                 return Ok();
             }
-            catch {
+            catch
+            {
                 return BadRequest();
             }
         }
 
- 
+
     }
 }

@@ -15,7 +15,7 @@ namespace UNAH_Assistance_Web_API.Controllers
         [Route("/api/Students/GET")]
         public IEnumerable<Models.Students> Get()
         {
-            return db.Estudiantes.ToList(); 
+            return db.Estudiantes.ToList();
         }
 
         [HttpGet]
@@ -27,21 +27,23 @@ namespace UNAH_Assistance_Web_API.Controllers
 
         [HttpPost]
         [Route("/api/Students/POST")]
-        public void Post([FromBody]Models.Students Student)
+        public void Post([FromBody] Models.Students Student)
         {
-            try{
+            try
+            {
                 db.Estudiantes.Add(Student);
                 db.SaveChanges();
 
             }
-            catch {
+            catch
+            {
                 Console.WriteLine("Error en la creación del nuevo estudiante");
             }
         }
 
         [HttpPost]
         [Route("/api/Students/PostMany")]
-        public IHttpActionResult PostMany([FromBody]Models.Students[] students)
+        public IHttpActionResult PostMany([FromBody] Models.Students[] students)
         {
             try
             {
@@ -57,7 +59,7 @@ namespace UNAH_Assistance_Web_API.Controllers
 
         [HttpPut]
         [Route("/api/Students/PUT/{id}")]
-        public IHttpActionResult Put(int id, [FromBody]Models.Students student)
+        public IHttpActionResult Put(int id, [FromBody] Models.Students student)
         {
             db.Entry(student).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();

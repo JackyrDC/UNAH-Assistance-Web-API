@@ -22,7 +22,7 @@ namespace UNAH_Assistance_Web_API.Controllers
         [Route("api/Classes/Get/{id}")]
         public Models.Classes GetbyId(int id)
         {
-          return db.Classes.Find(id);
+            return db.Classes.Find(id);
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace UNAH_Assistance_Web_API.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Post([FromBody]Models.Classes classes)
+        public IHttpActionResult Post([FromBody] Models.Classes classes)
         {
             db.Classes.Add(classes);
             db.SaveChanges();
@@ -41,7 +41,7 @@ namespace UNAH_Assistance_Web_API.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody]Models.Classes classes)
+        public IHttpActionResult Put(int id, [FromBody] Models.Classes classes)
         {
             db.Entry(classes).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
