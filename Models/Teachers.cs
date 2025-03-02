@@ -29,5 +29,6 @@ namespace UNAH_Assistance_Web_API.Models
         public ICollection<Classes> Classes { get; set; }
 
         public bool IsDeleted { get; set; } = false;
+        public DateTime? modificationDate { get; set; }
     }
 }

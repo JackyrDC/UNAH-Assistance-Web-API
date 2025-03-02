@@ -11,6 +11,7 @@ public class DailyRoll
 
     public DateTime creationDate { get; set; }
 
+    public DateTime? modificationDate { get; set; }
     public virtual Roll roll { get; set; }
 
     public virtual ICollection<PermanentRoll> studentsList { get; set; }

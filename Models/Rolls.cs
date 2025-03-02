@@ -28,5 +28,6 @@ namespace UNAH_Assistance_Web_API.Models
         public virtual ICollection<DailyRoll> DailyRolls { get; set; } = new HashSet<DailyRoll>();
 
         public bool IsDeleted { get; set; } = false;
+        public DateTime? modificationDate { get; set; }
     }
 }

@@ -22,5 +22,6 @@ namespace UNAH_Assistance_Web_API.Models
         public string rollState { get; set; }
 
         public bool IsDeleted { get; set; } = false;
+        public DateTime? modificationDate { get; set; }
     }
 }

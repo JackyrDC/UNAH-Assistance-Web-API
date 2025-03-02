@@ -28,7 +28,8 @@ namespace UNAH_Assistance_Web_API.Models
         public int Year { get; set; }
         public int Credits { get; set; }
 
-        public bool IsDeleted { get; set; } = false; // Nuevo campo para el borrado lógico
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? modificationDate { get; set; }
 
         public ICollection<Students> StudentsList { get; set; }
     }

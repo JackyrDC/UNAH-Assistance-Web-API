@@ -161,9 +161,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\PermanentRollsController.cs" />
-    <Compile Include="Controllers\DailyRollController.cs" />
-    <Compile Include="Controllers\RollController.cs" />
     <Compile Include="Controllers\CampusController.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
